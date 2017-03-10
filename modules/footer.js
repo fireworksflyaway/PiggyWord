@@ -5,7 +5,7 @@ import React from 'react';
 export default class Footer extends React.Component{
     render(){
         return (
-            <footer className="navbar-fixed-bottom">
+            <footer className="bottom">
                 <div className="container">
                     <hr />
                     <p className="text-center">Copyright © {new Date().getFullYear()} PiggyWord</p>

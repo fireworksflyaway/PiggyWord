@@ -15,7 +15,6 @@ export default class Header extends React.Component{
                         <button className="btn btn-primary">Sign Up</button>&nbsp;
                         <button className="btn btn-default">Sign In</button>
                     </div>
-
                 </div>
             </nav>
         );

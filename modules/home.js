@@ -4,6 +4,12 @@
 import React from 'react';
 export default class Home extends React.Component{
     render(){
-        return (<p>Home</p>);
+        return (
+            <div className="container">
+                <div id='welcomeDiv' className="jumbotron">
+                    <h2>Welcome to brand new PiggyWord!</h2>
+                </div>
+            </div>
+        );
     }
 }
