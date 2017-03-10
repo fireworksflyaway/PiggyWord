@@ -45,7 +45,7 @@ module.exports = {
     },
     plugins:[
         new HtmlWebpackPlugin({
-            title: 'Hello World app',
+            title: 'PiggyWord',
             template:'./src/htmlTemplate.html'
         })
     ]

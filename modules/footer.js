@@ -4,6 +4,13 @@
 import React from 'react';
 export default class Footer extends React.Component{
     render(){
-        return (<footer>Footer</footer>);
+        return (
+            <footer className="navbar-fixed-bottom">
+                <div className="container">
+                    <hr />
+                    <p className="text-center">Copyright © {new Date().getFullYear()} PiggyWord</p>
+                </div>
+            </footer>
+        );
     }
 }
