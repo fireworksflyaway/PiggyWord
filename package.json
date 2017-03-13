@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "jquery": "^3.1.1",
     "bootstrap-loader": "^2.0.0-beta.22",
     "bootstrap-sass": "^3.3.7",
+    "compression": "^1.6.2",
+    "express": "^4.15.2",
+    "if-env": "^1.0.0",
+    "jquery": "^3.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
@@ -29,8 +32,9 @@
     "webpack-dev-server": "^2.4.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --inline --content-base . --history-api-fallback"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:dev": "webpack-dev-server --inline --content-base public --history-api-fallback",
+    "start:prod": "webpack && node server.js"
   },
   "author": "",
   "license": "ISC"

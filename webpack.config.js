@@ -2,15 +2,16 @@
  * Created by ImageDBUser on 2017/3/10.
  */
 var HtmlWebpackPlugin=require('html-webpack-plugin');
-var modulePath=__dirname+"/modules";
-var entryPath=__dirname;
-var outPath=__dirname;
+var modulePath=__dirname+"/client/modules";
+var entryPath=__dirname+"/client";
+var outPath=__dirname+'/public';
 module.exports = {
     devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
     entry:  entryPath + "/index.js",
     output: {
         path: outPath,
-        filename: "bundle.js"
+        filename: "bundle.js",
+        publicPath: '/'
     },
     module:{
         loaders:[
@@ -46,7 +47,7 @@ module.exports = {
     plugins:[
         new HtmlWebpackPlugin({
             title: 'PiggyWord',
-            template:'./src/htmlTemplate.html'
+            template:'./client/src/htmlTemplate.html'
         })
     ]
 }
