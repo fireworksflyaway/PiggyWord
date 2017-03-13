@@ -1,6 +1,16 @@
+#basicDiv > div{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
-body{
+.grail-body{
   margin-top: 50px;
+  flex:1 0 auto;
+}
+
+nav,footer{
+  flex-shrink: 0;
 }
 
 #welcomeDiv{

@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AACA,IAAI;EACF,UAAU,EAAE,IAAI;;AAGlB,WAAW;EACT,UAAU,EAAE,KAAK",
+"mappings": "AAAA,eAAe;EACb,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,MAAM,EAAE,KAAK;;AAGf,WAAW;EACT,UAAU,EAAE,IAAI;EAChB,IAAI,EAAC,QAAQ;;AAGf,WAAU;EACR,WAAW,EAAE,CAAC;;AAGhB,WAAW;EACT,UAAU,EAAE,KAAK",
 "sources": ["basicStyle.scss"],
 "names": [],
 "file": "basicStyle.css"
