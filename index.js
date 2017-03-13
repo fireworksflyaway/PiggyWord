@@ -9,15 +9,13 @@ import './style/basicStyle.scss';
 
 import Content from './modules/content';
 import Home from './modules/home';
-// let item=document.createElement("div");
-// item.id="basicDiv";
-// document.body.appendChild(item);
+import SignUp from './modules/signUp';
 
 render((
         <Router history={browserHistory}>
             <Route path="/" component={Content}>
                 <IndexRoute component={Home}/>
-                {/*<Route path="/add" component={Footer}/>*/}
+                <Route path="/signup" component={SignUp}/>
             </Route>
         </Router>
 ),document.getElementById('basicDiv'))

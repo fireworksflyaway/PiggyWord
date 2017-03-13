@@ -12,8 +12,8 @@ export default class Header extends React.Component{
                         <Link className="navbar-brand" to="/">PiggyWord</Link>
                     </div>
                     <div className="navbar-form navbar-right">
-                        <button className="btn btn-primary">Sign Up</button>&nbsp;
-                        <button className="btn btn-default">Sign In</button>
+                        <Link to="/signup" className="btn btn-primary">Sign Up</Link>&nbsp;
+                        <Link to="/" className="btn btn-default">Sign In</Link>
                     </div>
                 </div>
             </nav>

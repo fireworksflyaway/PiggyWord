@@ -1,3 +1,6 @@
+body {
+  background: #f9f9f9; }
+
 #basicDiv > div {
   display: flex;
   flex-direction: column;
@@ -9,8 +12,5 @@
 
 nav, footer {
   flex-shrink: 0; }
-
-#welcomeDiv {
-  margin-top: 100px; }
 
 /*# sourceMappingURL=basicStyle.css.map */

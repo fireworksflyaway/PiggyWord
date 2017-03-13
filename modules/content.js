@@ -9,7 +9,7 @@ export default class Content extends React.Component{
         return (
             <div>
                 <Header/>
-                <div className="grail-body">
+                <div className="grail-body container">
                     {this.props.children}
                 </div>
                 <Footer/>
