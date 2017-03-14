@@ -2,6 +2,7 @@
  * Created by ImageDBUser on 2017/3/10.
  */
 var HtmlWebpackPlugin=require('html-webpack-plugin');
+var webpack=require('webpack');
 var modulePath=__dirname+"/client/modules";
 var entryPath=__dirname+"/client";
 var outPath=__dirname+'/public';
@@ -48,6 +49,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'PiggyWord',
             template:'./client/src/htmlTemplate.html'
+        }),
+        new webpack.ProvidePlugin({
+            $:"jquery",
+            jQuery:"jquery",
+            "window.jQuery":"jquery"
         })
     ]
 }
