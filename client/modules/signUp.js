@@ -28,6 +28,8 @@ export default class SignUp extends React.Component{
                 if(obj.suc)
                 {
                     alert("Sign up accomplished!");
+                    $.cookie('username',username);
+                    $.cookie('token',obj.token);
                     location.href='/centralpanel';
                 }
                 else

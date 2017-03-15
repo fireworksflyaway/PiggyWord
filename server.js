@@ -5,6 +5,7 @@
 var express = require('express')
 var path = require('path')
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var app = express()
 
 var userService=require('./server/user')
@@ -25,6 +26,8 @@ app.get('*', function (req, res) {
 
 app.post('/signInServer',userService.signIn);
 app.post('/signUpServer',userService.signUp);
+app.get('/confirmTokenServer',userService.confirmToken);
+
 var PORT = process.env.PORT || 8091
 app.listen(PORT, function() {
     console.log('Production Express server running at localhost:' + PORT)

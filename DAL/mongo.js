@@ -13,9 +13,11 @@ exports.insertData=function (colName, data, callback) {
             {
                 console.log('Error:'+err);
                 callback({suc:false, err:err});
+                db.close();
                 return;
             }
             callback({suc:true});
+            db.close();
         })
     })
 
@@ -29,9 +31,28 @@ exports.selectData=function (colName, query, callback) {
             {
                 console.log('Error:'+err);
                 callback({suc:false, err:err});
+                db.close();
                 return;
             }
             callback({suc:true, result:result});
+            db.close();
+        })
+    })
+}
+
+exports.updateData=function (colName, query, update, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        let collection=db.collection(colName);
+        collection.update(query, update, function (err, obj) {
+            if(err)
+            {
+                console.log('Error:'+err);
+                callback({suc:false, err:err});
+                db.close();
+                return;
+            }
+            callback({suc:true});
+            db.close();
         })
     })
 }
