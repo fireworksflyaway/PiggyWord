@@ -9,7 +9,7 @@ import '../style/home.scss';
 export default class Home extends React.Component{
 
     render(){
-        let component=this.props.isReg?<Link to="/centralpanel">Go to central panel</Link>:<SignIn />;
+        let component=this.props.isReg?<Link to="/centralpanel">Go to central panel</Link>:<SignIn setReg={this.props.setReg} />;
         return (
             <div id='welcomeDiv' className="jumbotron">
                 <h2>Welcome to brand new PiggyWord! </h2>

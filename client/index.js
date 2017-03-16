@@ -4,10 +4,12 @@
 import React from 'react';
 import {render} from 'react-dom';
 import { Router, Route, hashHistory, IndexRoute, browserHistory } from 'react-router';
+import '../node_modules/bootstrap-sass/assets/javascripts/bootstrap.min';
 import '../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 import './style/basicStyle.scss';
 import './plugin/jQuery.md5';
 import './plugin/jquery.cookie';
+
 
 import Content from './modules/content';
 import Home from './modules/home';
