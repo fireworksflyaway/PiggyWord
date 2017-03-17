@@ -6,8 +6,8 @@ import {Link} from 'react-router';
 export default class Header extends React.Component{
     signOutHandler(event){
         //event.preventDefault();
+        $.post('/signOutServer');
         $.cookie('username',null);
-        $.cookie('token', null);
         this.props.setReg(false);
     }
     render(){

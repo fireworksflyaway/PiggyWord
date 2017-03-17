@@ -2,7 +2,7 @@
  * Created by ImageDBUser on 2017/3/13.
  */
 import React from 'react';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import '../style/signUp.scss';
 import '../plugin/jQuery.md5';
 
@@ -24,13 +24,12 @@ export default class SignUp extends React.Component{
                 username:username,
                 password:password,
                 email:email
-            },function (obj) {
+            }, (obj)=> {
                 if(obj.suc)
                 {
                     alert("Sign up accomplished!");
-                    $.cookie('username',username);
-                    $.cookie('token',obj.token);
-                    location.href='/centralpanel';
+                    this.props.setReg(true);
+                    browserHistory.push('/centralpanel');
                 }
                 else
                 {

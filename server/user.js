@@ -3,6 +3,7 @@
  */
 var Mongo=require('../DAL/mongo');
 var uuid=require('node-uuid');
+var crypto=require('crypto');
 
 
 function updateToken(username, callback) {
@@ -12,54 +13,67 @@ function updateToken(username, callback) {
     });
 }
 
+
+exports.signOut=function (req,res) {
+    delete req.session.user;
+}
+
+
 exports.confirmToken=function (req,res) {
-    let username=req.cookies.username;
-    let token=req.cookies.token;
-    if(username&&token)
+    if(req.session.user)
     {
-        Mongo.selectData('user',{username:username,token:token},function (obj) {
-            if(obj.suc)
-            {
-                if(obj.result.length===1)
-                {
-                    res.send({suc:true});
-                    console.log("confirm token successfully");
-                    return;
-                }
-            }
-            res.send({suc:false, err: obj.err});
-            console.log("Error:"+obj.err);
-        })
+        res.send({suc:true});
+        return;
     }
-    else
-    {
-        res.send({suc:false, err: 'Error: unable to obtain cookie'});
-        console.log("Error: unable to obtain cookie");
-    }
+    return;
+
+    //let token=req.cookies.token;
+    // if(username&&token)
+    // {
+    //     Mongo.selectData('user',{username:username},function (obj) {
+    //         if(obj.suc)
+    //         {
+    //             if(obj.result.length===1)
+    //             {
+    //                 let md5= crypto.createHash('md5');
+    //                 md5.update(obj.result[0].password);
+    //                 let ptoken=md5.digest('hex');
+    //                 if(ptoken==token)
+    //                 {
+    //                     res.send({suc:true});
+    //                     console.log("confirm token successfully");
+    //                     return;
+    //                 }
+    //             }
+    //         }
+    //         res.send({suc:false, err: obj.err});
+    //         console.log("Error:"+obj.err);
+    //     })
+    // }
+    // else
+    // {
+    //     res.send({suc:false, err: 'Error: unable to obtain cookie'});
+    //     console.log("Error: unable to obtain cookie");
+    // }
 }
 
 
 exports.signIn=function (req, res) {
     let username=req.body.username;
     let password=req.body.password;
-    let data={"username":username,"password":password};
+    let data={"username":username};
     Mongo.selectData('user',data,function (obj) {
         if(obj.suc)
         {
             if(obj.result.length===1){
-                updateToken(username,function (obj, token) {
-                    if(obj.suc)
-                    {
-                        res.cookie('token',token);
-                        res.send({suc:true})
-                        console.log('update token successfully')
-                    }
-                    else
-                    {
-                        res.send({suc:false, err: 'Error: Failed to update token'});
-                        console.log(obj.err.errmsg);
-                    }
-                })
+                let md5=crypto.createHash('md5');
+                md5.update(password+obj.result[0].salt);
+                if(obj.result[0].password===md5.digest('hex'))
+                {
+                    req.session.user=username;
+                    res.cookie('username',username);
+                    res.send({suc:true})
+                }
             }
             else
                 res.send({suc:false, err:'Error: No user or incorrect password'});
@@ -71,11 +85,15 @@ exports.signIn=function (req, res) {
 
 exports.signUp=function (req,res) {
     let data={};
-    ({username:data.username, password:data.password, email:data.email}=req.body);
-    data.token=uuid.v4();
+    ({username:data.username, password:data.password, email:data.email, isRemember:isRemember}=req.body);
+    data.salt=uuid.v4();
+    let md5=crypto.createHash('md5');
+    md5.update(data.password+data.salt);
+    data.password=md5.digest('hex');
     Mongo.insertData('user', data, function (obj) {
         if(obj.suc){
-            res.cookie('token',data.token);
+            req.session.user=data.username;
+            res.cookie('username',data.username);
             res.send({suc:true});
         }
         else

@@ -12,22 +12,16 @@ export default class Content extends React.Component{
     setReg(isReg){
         this.setState({isReg});
     }
-    componentWillMount(){
-        let username=$.cookie('username');
-        let token=$.cookie('token');
-        if(username&&token)
-        {
-            $.get('/confirmTokenServer', (obj)=> {
-                if(obj.suc)
-                    this.setState({isReg: true});
-                else
-                    this.setState({isReg: false});
-            })
-        }
-        else
-            this.setState({isReg: false});
+    componentDidMount(){
+        $.post('/confirmTokenServer', (obj)=> {
+            if(obj.suc)
+                this.setState({isReg: true});
+            else
+                this.setState({isReg: false});
+        })
     }
     render(){
+        console.log('rendering...');
         return (
             <div>
                 <Header isReg={this.state.isReg} setReg={this.setReg.bind(this)} />

@@ -6,6 +6,7 @@ var express = require('express')
 var path = require('path')
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var session=require('express-session');
 var app = express()
 var userService=require('./server/user')
 
@@ -16,12 +17,16 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
+app.use(session({
+    resave: true, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'love'
+}))
 
-
-app.get('/confirmTokenServer',userService.confirmToken);
+app.post('/confirmTokenServer',userService.confirmToken);
 app.post('/signInServer',userService.signIn);
 app.post('/signUpServer',userService.signUp);
-
+app.post('/signOutServer',userService.signOut);
 //send all requests to index.html so browserHistory in React Router works
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'public', 'index.html'))
