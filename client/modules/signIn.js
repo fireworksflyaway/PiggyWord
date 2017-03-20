@@ -11,9 +11,8 @@ export default class SignIn extends React.Component {
         let password=$.md5(this.refs.password.value);
         let isRemember=this.refs.rememberMe.checked;
 
-        $.post('/signInServer',{username:username,password:password}, (msg)=> {
+        $.post('/signInServer',{username,password, isRemember}, (msg)=> {
             if(msg.suc){
-                let token=$.cookie('token');
                 this.props.setReg(true);
                 browserHistory.push("/centralpanel");
             }

@@ -25,42 +25,43 @@ exports.confirmToken=function (req,res) {
         res.send({suc:true});
         return;
     }
-    return;
 
-    //let token=req.cookies.token;
-    // if(username&&token)
-    // {
-    //     Mongo.selectData('user',{username:username},function (obj) {
-    //         if(obj.suc)
-    //         {
-    //             if(obj.result.length===1)
-    //             {
-    //                 let md5= crypto.createHash('md5');
-    //                 md5.update(obj.result[0].password);
-    //                 let ptoken=md5.digest('hex');
-    //                 if(ptoken==token)
-    //                 {
-    //                     res.send({suc:true});
-    //                     console.log("confirm token successfully");
-    //                     return;
-    //                 }
-    //             }
-    //         }
-    //         res.send({suc:false, err: obj.err});
-    //         console.log("Error:"+obj.err);
-    //     })
-    // }
-    // else
-    // {
-    //     res.send({suc:false, err: 'Error: unable to obtain cookie'});
-    //     console.log("Error: unable to obtain cookie");
-    // }
+    let username=req.cookies.username;
+    let token=req.cookies.token;
+    if(username&&token)
+    {
+        Mongo.selectData('user',{username:username},function (obj) {
+            if(obj.suc)
+            {
+                if(obj.result.length===1)
+                {
+                    let md5= crypto.createHash('md5');
+                    md5.update(username+obj.result[0].password);
+                    let ptoken=md5.digest('hex');
+                    if(ptoken==token)
+                    {
+                        res.send({suc:true});
+                        console.log("confirm token successfully");
+                        return;
+                    }
+                }
+            }
+            res.send({suc:false, err: obj.err});
+            console.log("Error:"+obj.err);
+        })
+    }
+    else
+    {
+        res.send({suc:false, err: 'Error: unable to obtain cookie'});
+        console.log("Error: unable to obtain cookie");
+    }
 }
 
 
 exports.signIn=function (req, res) {
     let username=req.body.username;
     let password=req.body.password;
+    let isRemember=req.body.isRemember;
     let data={"username":username};
     Mongo.selectData('user',data,function (obj) {
         if(obj.suc)
@@ -72,6 +73,13 @@ exports.signIn=function (req, res) {
                 {
                     req.session.user=username;
                     res.cookie('username',username);
+                    if(isRemember)
+                    {
+                        md5=crypto.createHash('md5');
+                        md5.update(username+obj.result[0].password);
+                        res.cookie('token',md5.digest('hex'),{expires: new Date(Date.now()+100000000)});
+                        res.cookie('username',username,{expires: new Date(Date.now()+100000000)});
+                    }
                     res.send({suc:true})
                 }
             }
