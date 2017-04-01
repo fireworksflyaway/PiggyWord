@@ -27,6 +27,9 @@ export default class Header extends React.Component{
                         <b className="caret" />
                     </a>
                     <ul className="dropdown-menu">
+                        <li><Link to="/profile">Profile</Link></li>
+                        <li><Link to="/changepassword">Change Password</Link></li>
+                        <li role="separator" className="divider"></li>
                         <li><Link to="/" onClick={this.signOutHandler.bind(this)}>Sign Out</Link></li>
                     </ul>
                 </li>

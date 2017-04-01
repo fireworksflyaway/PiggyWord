@@ -23,22 +23,36 @@ exports.insertData=function (colName, data, callback) {
 
 }
 
-exports.selectData=function (colName, query, callback) {
+// exports.selectData=function (colName, query, callback) {
+//     MongoClient.connect(DB_CONN_STR, function (err, db) {
+//         let collection=db.collection(colName);
+//         collection.find(query).toArray(function (err, result) {
+//             if(err)
+//             {
+//                 console.log('Error:'+err);
+//                 callback({suc:false, err:err});
+//                 db.close();
+//                 return;
+//             }
+//             callback({suc:true, result:result});
+//             db.close();
+//         })
+//     })
+// }
+
+exports.selectData=function (colName, query, resolve, reject) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let collection=db.collection(colName);
         collection.find(query).toArray(function (err, result) {
-            if(err)
-            {
-                console.log('Error:'+err);
-                callback({suc:false, err:err});
-                db.close();
-                return;
-            }
-            callback({suc:true, result:result});
             db.close();
+            if(err)
+                reject(err);
+            else
+                resolve(result);
         })
     })
 }
+
 
 exports.updateData=function (colName, query, update, callback) {
     MongoClient.connect(DB_CONN_STR, function (err, db) {

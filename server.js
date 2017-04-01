@@ -23,6 +23,10 @@ app.use(session({
     secret: 'love'
 }))
 
+
+
+
+
 app.post('/confirmTokenServer',userService.confirmToken);
 app.post('/signInServer',userService.signIn);
 app.post('/signUpServer',userService.signUp);

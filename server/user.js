@@ -59,36 +59,37 @@ exports.confirmToken=function (req,res) {
 
 
 exports.signIn=function (req, res) {
-    let username=req.body.username;
-    let password=req.body.password;
-    let isRemember=req.body.isRemember;
-    let data={"username":username};
-    Mongo.selectData('user',data,function (obj) {
-        if(obj.suc)
-        {
-            if(obj.result.length===1){
-                let md5=crypto.createHash('md5');
-                md5.update(password+obj.result[0].salt);
-                if(obj.result[0].password===md5.digest('hex'))
+    let {username,password,isRemember}=req.body;
+    let data={username};
+    let promise=new Promise(function (resolve,reject) {
+        Mongo.selectData('user',data,resolve,reject)
+    });
+    promise.then(result=>{
+        if(result.length==1){
+            let md5=crypto.createHash('md5');
+            md5.update(password+result[0].salt);
+            if(result[0].password===md5.digest('hex'))
+            {
+                req.session.user=username;
+                res.cookie('username',username);
+                if(isRemember)
                 {
-                    req.session.user=username;
-                    res.cookie('username',username);
-                    if(isRemember)
-                    {
-                        md5=crypto.createHash('md5');
-                        md5.update(username+obj.result[0].password);
-                        res.cookie('token',md5.digest('hex'),{expires: new Date(Date.now()+100000000)});
-                        res.cookie('username',username,{expires: new Date(Date.now()+100000000)});
-                    }
-                    res.send({suc:true})
+                    md5=crypto.createHash('md5');
+                    md5.update(username+result[0].password);
+                    res.cookie('token',md5.digest('hex'),{expires: new Date(Date.now()+100000000)});
+                    res.cookie('username',username,{expires: new Date(Date.now()+100000000)});
                 }
+                res.send({suc:true})
             }
             else
-                res.send({suc:false, err:'Error: No user or incorrect password'});
+                res.send({suc:false, err:'Incorrect password!'});
         }
         else
-            res.send({suc:false,err:obj.err.errmsg});
-    })
+            res.send({suc:false,err:'Invalid username!'});
+    }).catch(err=>{
+            res.send({suc:false,err});
+    });
+
 }
 
 exports.signUp=function (req,res) {

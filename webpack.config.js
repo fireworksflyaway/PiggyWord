@@ -43,7 +43,7 @@ module.exports = {
         contentBase:entryPath,   //入口地址目录
         historyApiFallback:true,  //true代表跳转指向index.html
         inline:true,    //源文件改变时自动刷新页面
-        port:8090  //服务器端口号
+        port:8091  //服务器端口号
     },
     plugins:[
         new HtmlWebpackPlugin({

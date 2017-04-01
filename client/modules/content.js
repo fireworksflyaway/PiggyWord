@@ -13,12 +13,12 @@ export default class Content extends React.Component{
         this.setState({isReg});
     }
     componentDidMount(){
-        $.post('/confirmTokenServer', (obj)=> {
-            if(obj.suc)
-                this.setState({isReg: true});
-            else
-                this.setState({isReg: false});
-        })
+        // $.post('/confirmTokenServer', (obj)=> {
+        //     if(obj.suc)
+        //         this.setState({isReg: true});
+        //     else
+        //         this.setState({isReg: false});
+        // })
     }
     render(){
         console.log('rendering...');
